@@ -6,6 +6,7 @@
 
 html, body {
     height: 100%;
+    overflow: hidden;
     background-color: rgb(48, 107, 181);
     background-image:
         linear-gradient(rgb(68, 120, 188) 2px, transparent 2px),
@@ -23,13 +24,41 @@ html, body {
     position: relative;
 }
 
-.bubble {
+.bubble__container {
     display: block;
     width: 120px;
     height: 120px;
     position: absolute;
-    top: 30%;
-    left: 30%;
+    top: 10vh;
+    left: 30vh;
+    animation: 2s ease-in-out 0s infinite alternate zigzag_x;
+}
+
+.bubble {
+    display: block;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
+    animation: 10s linear 0s infinite zigzag_y;
     background: rgba(255, 255, 255, .4);
+}
+
+@keyframes zigzag_x {
+    from {
+        transform: translateX(-80px);
+    }
+
+    to {
+        transform: translateX(80px);
+    }
+}
+
+@keyframes zigzag_y {
+    from {
+        transform: translateY(calc(100vh + 200px));
+    }
+
+    to {
+        transform: translateY(-200px);
+    }
 }

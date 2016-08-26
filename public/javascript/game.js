@@ -6,15 +6,20 @@ WebsocketClient.prototype.send = function (data) {
     return this.connection.send(data);
 };
 
-var bubbleId = 0;
+function Bubble (id) {
+    this.id = id;
 
-function Bubble () {
-    this.id = bubbleId++;
+    var bubbleElement = document.createElement('div');
+    bubbleElement.classList.add('bubble');
+    bubbleElement.setAttribute('data-id', this.id);
 
-    this.element = document.createElement('div');
-    this.element.classList.add('bubble');
-    this.element.setAttribute('data-id', this.id);
-    this.connection = null;
+    var containerElement = document.createElement('div');
+    containerElement.classList.add('bubble__container');
+    containerElement.appendChild(bubbleElement);
+
+    this.containerElement = containerElement;
+    this.element          = bubbleElement;
+    this.connection       = null;
 
     var self = this;
     this.element.addEventListener(
@@ -27,7 +32,7 @@ function Bubble () {
 }
 
 Bubble.prototype.into = function (containerElement) {
-    containerElement.appendChild(this.element);
+    containerElement.appendChild(this.containerElement);
 };
 
 Bubble.prototype.connect = function (websocketClient) {
@@ -36,12 +41,31 @@ Bubble.prototype.connect = function (websocketClient) {
 
 Bubble.prototype.onclick = function () {
     if (null !== this.connection) {
-        this.connection.send(this.id);
+        var date = new Date();
+
+        this.connection.send(
+            JSON.stringify({
+                "id": this.id,
+                "time": date.getTime() + "" + date.getMilliseconds()
+            })
+        );
     }
 };
 
-var websocketClient = new WebsocketClient();
-var canvas = document.getElementById('canvas');
-var b1 = new Bubble();
-b1.into(canvas);
-b1.connect(websocketClient);
+var websocket = new WebsocketClient();
+var canvas    = document.getElementById('canvas');
+var bubbles   = [];
+
+function newBubble (id, canvas, websocket) {
+    var bubble = new Bubble(id);
+    bubble.into(canvas);
+    bubble.connect(websocket);
+
+    return bubble;
+}
+
+function bubble (id) {
+    return newBubble(id, canvas, websocket);
+}
+
+bubbles.push(bubble(42));
