@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    background-color: rgb(48, 107, 181);
+    background-image:
+        linear-gradient(rgb(68, 120, 188) 2px, transparent 2px),
+        linear-gradient(90deg, rgb(68, 120, 188) 2px, transparent 2px),
+        linear-gradient(rgb(68, 120, 188) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(68, 120, 188) 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+
+#canvas {
+    height: 100%;
+    width: 100%;
+    display: block;
+    position: relative;
+}
+
+.bubble {
+    display: block;
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .4);
+}
