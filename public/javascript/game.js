@@ -1,9 +1,44 @@
-function WebsocketClient () {
-    this.connection = new WebSocket('ws://127.0.0.1:8080');
+function Game (uri, canvas) {
+    var self = this;
+
+    this.connection           = new WebSocket(uri);
+    this.connection.onmessage = function (event) {
+        console.log(event);
+        var bucket = JSON.parse(event.data);
+        console.log(bucket);
+
+        if (!bucket.type) {
+            return;
+        }
+
+        switch (bucket.type) {
+            case 'bubble/new':
+                self.doNewBubble(bucket.id);
+
+                break;
+        }
+    };
+    this.canvas  = canvas;
+    this.bubbles = {};
 }
 
-WebsocketClient.prototype.send = function (data) {
-    return this.connection.send(data);
+Game.prototype.askNewBubble = function () {
+    this.connection.send(
+        JSON.stringify({
+            'type': 'bubble/new',
+            'id'  : guid()
+        })
+    );
+};
+
+Game.prototype.doNewBubble = function (id) {
+    var bubble = new Bubble(id);
+    bubble.into(this.canvas);
+    bubble.connect(this.connection);
+
+    this.bubbles[id] = bubble;
+
+    return bubble;
 };
 
 function Bubble (id) {
@@ -43,38 +78,37 @@ Bubble.prototype.connect = function (websocketClient) {
 
 Bubble.prototype.explode = function () {
     if (null !== this.parentElement) {
-        this.parentElement.remove(this.containerElement);
+        this.parentElement.removeChild(this.containerElement);
+
+        if (null !== this.connection) {
+            var date = new Date();
+            this.connection.send(
+                JSON.stringify({
+                    'type': 'bubble/explode',
+                    'id'  : this.id,
+                    'time': date.getTime() + '' + date.getMilliseconds()
+                })
+            );
+        }
     }
 };
 
 Bubble.prototype.onclick = function () {
-    if (null !== this.connection) {
-        var date = new Date();
-
-        this.explode();
-        this.connection.send(
-            JSON.stringify({
-                "id": this.id,
-                "time": date.getTime() + "" + date.getMilliseconds()
-            })
-        );
-    }
+    this.explode();
 };
 
-var websocket = new WebsocketClient();
-var canvas    = document.getElementById('canvas');
-var bubbles   = [];
+var game = new Game(
+    'ws://127.0.0.1:8080',
+    document.getElementById('canvas')
+);
 
-function newBubble (id, canvas, websocket) {
-    var bubble = new Bubble(id);
-    bubble.into(canvas);
-    bubble.connect(websocket);
+function guid () {
+    function s4 () {
+        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    }
 
-    return bubble;
+    return s4() + s4() + '-' + s4() + '-' +
+        s4() + '-' +
+        s4() + '-' +
+        s4() + s4() + s4();
 }
-
-function bubble (id) {
-    return newBubble(id, canvas, websocket);
-}
-
-bubbles.push(bubble(42));

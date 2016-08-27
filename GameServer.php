@@ -2,6 +2,7 @@
 
 require 'vendor/autoload.php';
 
+use Hoa\Consistency;
 use Hoa\Event;
 use Hoa\Socket;
 use Hoa\Websocket;
@@ -12,6 +13,15 @@ $server->on(
     'message',
     function (Event\Bucket $bucket) {
         var_dump($bucket->getData());
+        $bucket->getSource()->broadcastIf(
+            function () {
+                return true;
+            },
+            json_encode([
+                'type' => 'bubble/new',
+                'id'   => Consistency::uuid()
+            ])
+        );
     }
 );
 
