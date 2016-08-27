@@ -19,6 +19,7 @@ function Bubble (id) {
 
     this.containerElement = containerElement;
     this.element          = bubbleElement;
+    this.parentElement    = null;
     this.connection       = null;
 
     var self = this;
@@ -32,17 +33,25 @@ function Bubble (id) {
 }
 
 Bubble.prototype.into = function (containerElement) {
-    containerElement.appendChild(this.containerElement);
+    this.parentElement = containerElement;
+    this.parentElement.appendChild(this.containerElement);
 };
 
 Bubble.prototype.connect = function (websocketClient) {
     this.connection = websocketClient;
 };
 
+Bubble.prototype.explode = function () {
+    if (null !== this.parentElement) {
+        this.parentElement.remove(this.containerElement);
+    }
+};
+
 Bubble.prototype.onclick = function () {
     if (null !== this.connection) {
         var date = new Date();
 
+        this.explode();
         this.connection.send(
             JSON.stringify({
                 "id": this.id,
