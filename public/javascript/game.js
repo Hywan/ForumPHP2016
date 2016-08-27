@@ -1,9 +1,17 @@
 function Game (uri, canvas) {
     var self = this;
+    var html = document.body.parentNode;
 
     this.connection           = new WebSocket(uri);
+    this.connection.onopen    = function () {
+        html.classList.remove('network-status-offline');
+        html.classList.add('network-status-online');
+    };
+    this.connection.onclose = function () {
+        html.classList.remove('network-status-online');
+        html.classList.add('network-status-offline');
+    };
     this.connection.onmessage = function (event) {
-        console.log(event);
         var bucket = JSON.parse(event.data);
         console.log(bucket);
 
@@ -24,7 +32,6 @@ function Game (uri, canvas) {
     document.getElementById('ask-new-bubble').addEventListener(
         'click',
         function () {
-            console.log('ho');
             self.askNewBubble();
         },
         false
