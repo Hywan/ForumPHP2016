@@ -20,6 +20,15 @@ function Game (uri, canvas) {
     };
     this.canvas  = canvas;
     this.bubbles = {};
+
+    document.getElementById('ask-new-bubble').addEventListener(
+        'click',
+        function () {
+            console.log('ho');
+            self.askNewBubble();
+        },
+        false
+    );
 }
 
 Game.prototype.askNewBubble = function () {

@@ -24,6 +24,12 @@ html, body {
     position: relative;
 }
 
+#controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
 .bubble__container {
     display: block;
     width: 120px;
@@ -41,6 +47,13 @@ html, body {
     border-radius: 50%;
     animation: 10s linear 0s infinite zigzag_y;
     background: rgba(255, 255, 255, .4);
+}
+
+button {
+    padding: .2rem .5rem;
+    border: 1px rgba(255, 255, 255, .5) solid;
+    border-radius: .5rem;
+    background: rgba(255, 255, 255, .5);
 }
 
 @keyframes zigzag_x {
