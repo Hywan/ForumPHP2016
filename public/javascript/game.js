@@ -21,7 +21,7 @@ function Game (uri, canvas) {
 
         switch (bucket.type) {
             case 'bubble/new':
-                self.doNewBubble(bucket.id);
+                self.doNewBubble(bucket.id, bucket.offset);
 
                 break;
         }
@@ -47,8 +47,8 @@ Game.prototype.askNewBubble = function () {
     );
 };
 
-Game.prototype.doNewBubble = function (id) {
-    var bubble = new Bubble(id);
+Game.prototype.doNewBubble = function (id, offset) {
+    var bubble = new Bubble(id, offset);
     bubble.into(this.canvas);
     bubble.connect(this.connection);
 
@@ -57,7 +57,7 @@ Game.prototype.doNewBubble = function (id) {
     return bubble;
 };
 
-function Bubble (id) {
+function Bubble (id, offset) {
     this.id = id;
 
     var bubbleElement = document.createElement('div');
@@ -67,6 +67,7 @@ function Bubble (id) {
     var containerElement = document.createElement('div');
     containerElement.classList.add('bubble__container');
     containerElement.appendChild(bubbleElement);
+    containerElement.style.left = offset + 'vw';
 
     this.containerElement = containerElement;
     this.element          = bubbleElement;

@@ -49,8 +49,8 @@ html, body {
     width: 120px;
     height: 120px;
     position: absolute;
-    top: 10vh;
-    left: 30vh;
+    top: -200px;
+    left: 0;
     animation: 2s ease-in-out 0s infinite alternate zigzag_x;
 }
 

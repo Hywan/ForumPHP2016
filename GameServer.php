@@ -18,8 +18,9 @@ $server->on(
                 return true;
             },
             json_encode([
-                'type' => 'bubble/new',
-                'id'   => Consistency::uuid()
+                'type'   => 'bubble/new',
+                'id'     => Consistency::uuid(),
+                'offset' => mt_rand(0, 100)
             ])
         );
     }
