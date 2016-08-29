@@ -9,8 +9,12 @@ use Hoa\Websocket;
 
 class Node extends Websocket\Node implements JsonSerializable
 {
+    const TEAM_ONE = 'blue';
+    const TEAM_TWO = 'yellow';
+
     protected $_playerId     = null;
     protected $_playerPseudo = null;
+    protected $_team         = null;
 
     public function setPlayerId($id)
     {
@@ -38,11 +42,25 @@ class Node extends Websocket\Node implements JsonSerializable
         return $this->_playerPseudo;
     }
 
+    public function setTeam($team)
+    {
+        $old         = $this->_team;
+        $this->_team = $team;
+
+        return $old;
+    }
+
+    public function getTeam()
+    {
+        return $this->_team;
+    }
+
     public function jsonSerialize()
     {
         return [
             'id'     => $this->getPlayerId(),
-            'pseudo' => $this->getPlayerPseudo()
+            'pseudo' => $this->getPlayerPseudo(),
+            'team'   => $this->getTeam()
         ];
     }
 }
@@ -92,13 +110,28 @@ $server->on(
                 $node->setPlayerId($message->id);
                 $node->setPlayerPseudo($message->pseudo);
 
-                $players = [];
+                $players   = [];
+                $teamStats = [
+                    Node::TEAM_ONE => 0,
+                    Node::TEAM_TWO => 0
+                ];
 
                 foreach ($connection->getNodes() as $playerNode) {
                     if (null !== $playerNode->getPlayerId()) {
                         $players[] = $playerNode;
+
+                        if ($playerNode !== $node) {
+                            $team = $playerNode->getTeam();
+
+                            if (!empty($team)) {
+                                $teamStats[$team]++;
+                            }
+                        }
                     }
                 }
+
+                asort($teamStats, SORT_NUMERIC);
+                $node->setTeam(key($teamStats));
 
                 $source->send(
                     json_encode([
@@ -110,7 +143,8 @@ $server->on(
                     json_encode([
                         'type'   => 'client/player/new',
                         'id'     => $node->getPlayerId(),
-                        'pseudo' => $node->getPlayerPseudo()
+                        'pseudo' => $node->getPlayerPseudo(),
+                        'team'   => $node->getTeam()
                     ])
                 );
 

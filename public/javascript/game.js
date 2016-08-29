@@ -18,7 +18,7 @@ function Game(uri, canvas) {
 
         switch (bucket.type) {
             case 'client/player/new':
-                var player = new Player(bucket.id, bucket.pseudo);
+                var player = new Player(bucket.id, bucket.pseudo, bucket.team);
 
                 self.players[player.id] = player;
                 self.controls.newPlayer(player);
@@ -30,7 +30,7 @@ function Game(uri, canvas) {
 
                 bucket.players.forEach(
                     function (_player) {
-                        var player = new Player(_player.id, _player.pseudo);
+                        var player = new Player(_player.id, _player.pseudo, _player.team);
 
                         self.players[player.id] = player;
                         self.controls.newPlayer(player);
@@ -115,9 +115,10 @@ Game.prototype.setCurrentPlayer = function (player) {
     this.currentPlayer = player;
 };
 
-function Player(id, pseudo) {
+function Player(id, pseudo, team) {
     this.id     = id;
     this.pseudo = pseudo;
+    this.team   = team;
 }
 
 function Bubble(id, offset) {
