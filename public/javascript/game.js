@@ -46,7 +46,7 @@ function Game(uri, canvas) {
 
                 break;
 
-            case 'bubble/new':
+            case 'client/bubble/new':
                 self.doNewBubble(bucket.id, bucket.offset);
 
                 break;
@@ -95,7 +95,7 @@ function Game(uri, canvas) {
 Game.prototype.askNewBubble = function () {
     this.connection.send(
         JSON.stringify({
-            'type': 'bubble/new',
+            'type': 'server/bubble/new',
             'id'  : guid()
         })
     );
