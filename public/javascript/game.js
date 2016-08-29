@@ -1,15 +1,12 @@
-function Game (uri, canvas) {
+function Game(uri, canvas) {
     var self = this;
-    var html = document.body.parentNode;
 
     this.connection           = new WebSocket(uri);
     this.connection.onopen    = function () {
-        html.classList.remove('network-status-offline');
-        html.classList.add('network-status-online');
+        self.controls.networkStatus('online');
     };
     this.connection.onclose = function () {
-        html.classList.remove('network-status-online');
-        html.classList.add('network-status-offline');
+        self.controls.networkStatus('offline');
     };
     this.connection.onmessage = function (event) {
         var bucket = JSON.parse(event.data);
@@ -20,19 +17,76 @@ function Game (uri, canvas) {
         }
 
         switch (bucket.type) {
+            case 'client/player/new':
+                var player = new Player(bucket.id, bucket.pseudo);
+
+                self.players[player.id] = player;
+                self.controls.newPlayer(player);
+
+                break;
+
+            case 'client/players':
+                self.controls.deletePlayers();
+
+                bucket.players.forEach(
+                    function (_player) {
+                        var player = new Player(_player.id, _player.pseudo);
+
+                        self.players[player.id] = player;
+                        self.controls.newPlayer(player);
+                    }
+                );
+
+                break;
+
+            case 'client/player/delete':
+                delete self.players[bucket.id];
+
+                self.controls.deletePlayer(bucket.id);
+
+                break;
+
             case 'bubble/new':
                 self.doNewBubble(bucket.id, bucket.offset);
 
                 break;
         }
     };
-    this.canvas  = canvas;
-    this.bubbles = {};
+    this.controls      = new Controls();
+    this.canvas        = canvas;
+    this.bubbles       = {};
+    this.players       = {};
+    this.currentPlayer = null;
 
     document.getElementById('ask-new-bubble').addEventListener(
         'click',
         function () {
             self.askNewBubble();
+        },
+        false
+    );
+
+    var intro = document.getElementById('intro');
+    intro.addEventListener(
+        'submit',
+        function (event) {
+            event.preventDefault();
+
+            var pseudo = document.getElementById('pseudo').value;
+            var id     = guid();
+            var player = new Player(id, pseudo);
+            self.setCurrentPlayer(player);
+            self.connection.send(
+                JSON.stringify({
+                    'type'  : 'server/player/new',
+                    'id'    : player.id,
+                    'pseudo': player.pseudo
+                })
+            );
+
+            intro.setAttribute('aria-hidden', 'true');
+
+            return false;
         },
         false
     );
@@ -57,7 +111,16 @@ Game.prototype.doNewBubble = function (id, offset) {
     return bubble;
 };
 
-function Bubble (id, offset) {
+Game.prototype.setCurrentPlayer = function (player) {
+    this.currentPlayer = player;
+};
+
+function Player(id, pseudo) {
+    this.id     = id;
+    this.pseudo = pseudo;
+}
+
+function Bubble(id, offset) {
     this.id = id;
 
     var bubbleElement = document.createElement('div');
@@ -112,6 +175,44 @@ Bubble.prototype.explode = function () {
 
 Bubble.prototype.onclick = function () {
     this.explode();
+};
+
+function Controls() {
+    this.players = document.getElementById('players');
+    this.html    = document.body.parentNode;
+}
+
+Controls.prototype.networkStatus = function (status) {
+    if ('online' === status) {
+        this.html.classList.remove('network-status-offline');
+        this.html.classList.add('network-status-online');
+    } else {
+        this.html.classList.remove('network-status-online');
+        this.html.classList.add('network-status-offline');
+    }
+};
+
+Controls.prototype.newPlayer = function (player) {
+    var listItem = document.createElement('li');
+    listItem.setAttribute('data-id', player.id);
+    listItem.innerHTML = player.pseudo;
+    self.players.appendChild(listItem);
+
+    return listItem;
+};
+
+Controls.prototype.deletePlayer = function (id) {
+    var listItem = players.querySelector('[data-id="' + id + '"');
+
+    if (null !== listItem) {
+        listItem.remove();
+    }
+};
+
+Controls.prototype.deletePlayers = function () {
+    while (self.players.firstChild) {
+        self.players.firstChild.remove();
+    }
 };
 
 var game = new Game(

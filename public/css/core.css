@@ -6,6 +6,7 @@
 
 html, body {
     height: 100%;
+    width: 100%
     overflow: hidden;
     background-color: rgb(48, 107, 181);
     background-image:
@@ -25,10 +26,53 @@ html, body {
         color: rgb(254, 71, 71);
     }
 
-#canvas {
-    height: 100%;
-    width: 100%;
+.fullscreen {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     display: block;
+    transition: transform 300ms cubic-bezier(1,.41,0,1);
+}
+
+    .fullscreen[aria-hidden="true"] {
+        transform: translateY(-200vh);
+    }
+
+#intro {
+    display: flex;
+    flex-direction: row;
+    background: rgba(48, 107, 181, .85);
+    z-index: 1;
+}
+
+    #intro > form {
+        display: block;
+        width: 50%;
+        margin: auto;
+        padding: 2.5rem 3rem;
+        border: 2px rgba(255, 255, 255, .5) solid;
+        border-radius: .5rem;
+        background: rgba(255, 255, 255, .1);
+    }
+
+    #intro > form p {
+        display: flex;
+    }
+
+    #intro > form > p > label {
+        width: 30%;
+        padding-inline-end: 1rem;
+        text-align: end;
+    }
+
+    #intro > form > p > button {
+        display: block;
+        margin: 1rem auto 0 auto;
+    }
+
+#canvas {
     position: relative;
 }
 

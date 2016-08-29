@@ -11,13 +11,26 @@
   <link type="text/css" href="public/css/core.css" rel="stylesheet" />
 </head>
 <body>
+  <div id="intro" class="fullscreen" aria-hidden="false">
+    <form>
+      <p>
+        <label for="pseudo">Pseudo:</label>
+        <input type="text" id="pseudo" name="pseudo" maxlength="25" autofocus />
+      </p>
+      <p>
+        <button type="submit">Join the game!</button>
+      </p>
+    </form>
+  </div>
 
-  <div id="canvas">
+  <div id="canvas" class="fullscreen">
   </div>
 
   <div id="controls">
     <div id="network-status">⬤</div>
     <button id="ask-new-bubble">Ask new bubble</button>
+    <ul id="players">
+    </ul>
   </div>
 
   <script src="public/javascript/game.js"></script>
