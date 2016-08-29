@@ -88,6 +88,38 @@ html, body {
         margin-bottom: .5rem;
     }
 
+    #players {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+    }
+
+        #players > li {
+            position: relative;
+            display: block;
+            text-align: left;
+            order: 1;
+        }
+
+        #players > li[data-team="green"] {
+            order: 2;
+        }
+
+        #players > li::before {
+            position: absolute;
+            left: -1.5rem;
+            width: 1rem;
+            height: 1rem;
+        }
+
+        #players > li[data-team="yellow"]::before {
+            content: '💛';
+        }
+
+        #players > li[data-team="green"]::before {
+            content: '💚';
+        }
+
 .bubble__container {
     display: block;
     width: 120px;

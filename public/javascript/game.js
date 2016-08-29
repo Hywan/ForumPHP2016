@@ -165,7 +165,7 @@ Bubble.prototype.explode = function () {
             var date = new Date();
             this.connection.send(
                 JSON.stringify({
-                    'type': 'bubble/explode',
+                    'type': 'server/bubble/explode',
                     'id'  : this.id,
                     'time': date.getTime() + '' + date.getMilliseconds()
                 })
@@ -196,6 +196,7 @@ Controls.prototype.networkStatus = function (status) {
 Controls.prototype.newPlayer = function (player) {
     var listItem = document.createElement('li');
     listItem.setAttribute('data-id', player.id);
+    listItem.setAttribute('data-team', player.team);
     listItem.innerHTML = player.pseudo;
     self.players.appendChild(listItem);
 

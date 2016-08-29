@@ -9,7 +9,7 @@ use Hoa\Websocket;
 
 class Node extends Websocket\Node implements JsonSerializable
 {
-    const TEAM_ONE = 'blue';
+    const TEAM_ONE = 'green';
     const TEAM_TWO = 'yellow';
 
     protected $_playerId     = null;
