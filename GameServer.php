@@ -164,6 +164,16 @@ $server->on(
                 );
 
                 break;
+
+            case 'server/bubble/delete':
+                $bucket->getSource()->broadcast(
+                    json_encode([
+                        'type' => 'client/bubble/delete',
+                        'id'   => $message->id
+                    ])
+                );
+
+                break;
         }
     }
 );

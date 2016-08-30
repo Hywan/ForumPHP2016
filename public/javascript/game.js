@@ -1,8 +1,8 @@
 function Game(uri, canvas) {
     var self = this;
 
-    this.connection           = new WebSocket(uri);
-    this.connection.onopen    = function () {
+    this.connection        = new WebSocket(uri);
+    this.connection.onopen = function () {
         self.controls.networkStatus('online');
     };
     this.connection.onclose = function () {
@@ -47,7 +47,12 @@ function Game(uri, canvas) {
                 break;
 
             case 'client/bubble/new':
-                self.doNewBubble(bucket.id, bucket.offset, bucket.radius);
+                self.newBubble(bucket.id, bucket.offset, bucket.radius);
+
+                break;
+
+            case 'client/bubble/delete':
+                self.deleteBubble(bucket.id);
 
                 break;
         }
@@ -101,7 +106,7 @@ Game.prototype.askNewBubble = function () {
     );
 };
 
-Game.prototype.doNewBubble = function (id, offset, radius) {
+Game.prototype.newBubble = function (id, offset, radius) {
     var bubble = new Bubble(id, offset, radius);
     bubble.into(this.canvas);
     bubble.connect(this.connection);
@@ -109,6 +114,16 @@ Game.prototype.doNewBubble = function (id, offset, radius) {
     this.bubbles[id] = bubble;
 
     return bubble;
+};
+
+Game.prototype.deleteBubble = function (id) {
+    if (!this.bubbles[id]) {
+        return;
+    }
+
+    this.bubbles[id].explode();
+
+    delete this.bubbles[id];
 };
 
 Game.prototype.setCurrentPlayer = function (player) {
@@ -160,24 +175,22 @@ Bubble.prototype.connect = function (websocketClient) {
 };
 
 Bubble.prototype.explode = function () {
-    if (null !== this.parentElement) {
-        this.parentElement.removeChild(this.containerElement);
-
-        if (null !== this.connection) {
-            var date = new Date();
-            this.connection.send(
-                JSON.stringify({
-                    'type': 'server/bubble/explode',
-                    'id'  : this.id,
-                    'time': date.getTime() + '' + date.getMilliseconds()
-                })
-            );
-        }
-    }
+    this.parentElement.removeChild(this.containerElement);
 };
 
 Bubble.prototype.onclick = function () {
+    var date = new Date();
     this.explode();
+
+    if (null !== this.connection) {
+        this.connection.send(
+            JSON.stringify({
+                'type': 'server/bubble/delete',
+                'id'  : this.id,
+                'time': date.getTime() + '' + date.getMilliseconds()
+            })
+        );
+    }
 };
 
 function Controls() {
