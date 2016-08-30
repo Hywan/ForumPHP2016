@@ -158,7 +158,8 @@ $server->on(
                     json_encode([
                         'type'   => 'client/bubble/new',
                         'id'     => Consistency::uuid(),
-                        'offset' => mt_rand(0, 100)
+                        'offset' => mt_rand(0, 100),
+                        'radius' => mt_rand(4, 120)
                     ])
                 );
 

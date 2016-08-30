@@ -47,7 +47,7 @@ function Game(uri, canvas) {
                 break;
 
             case 'client/bubble/new':
-                self.doNewBubble(bucket.id, bucket.offset);
+                self.doNewBubble(bucket.id, bucket.offset, bucket.radius);
 
                 break;
         }
@@ -101,8 +101,8 @@ Game.prototype.askNewBubble = function () {
     );
 };
 
-Game.prototype.doNewBubble = function (id, offset) {
-    var bubble = new Bubble(id, offset);
+Game.prototype.doNewBubble = function (id, offset, radius) {
+    var bubble = new Bubble(id, offset, radius);
     bubble.into(this.canvas);
     bubble.connect(this.connection);
 
@@ -121,7 +121,7 @@ function Player(id, pseudo, team) {
     this.team   = team;
 }
 
-function Bubble(id, offset) {
+function Bubble(id, offset, radius) {
     this.id = id;
 
     var bubbleElement = document.createElement('div');
@@ -131,7 +131,9 @@ function Bubble(id, offset) {
     var containerElement = document.createElement('div');
     containerElement.classList.add('bubble__container');
     containerElement.appendChild(bubbleElement);
-    containerElement.style.left = offset + 'vw';
+    containerElement.style.left   = offset + 'vw';
+    containerElement.style.width  = radius + 'px';
+    containerElement.style.height = radius + 'px';
 
     this.containerElement = containerElement;
     this.element          = bubbleElement;
