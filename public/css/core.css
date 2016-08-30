@@ -73,7 +73,7 @@ html, body {
     }
 
 #canvas {
-    position: relative;
+    overflow: hidden;
 }
 
 #controls {
