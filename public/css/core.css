@@ -80,12 +80,20 @@ html, body {
     position: absolute;
     top: 1rem;
     right: 1rem;
+    padding: 1rem 1.5rem;
+    overflow: auto;
+    width: 11rem;
+    max-height: calc(100% - 2rem);
+    background: rgba(255, 255, 255, .4);
 }
 
-    #controls > * {
-        display: block;
-        text-align: right;
-        margin-bottom: .5rem;
+    #controls > dl > dt {
+        font-weight: bold;
+        margin-bottom: .3rem;
+    }
+
+    #controls > dl > dd {
+        margin-bottom: 1rem;
     }
 
     #players,
@@ -101,6 +109,11 @@ html, body {
             display: block;
             text-align: left;
             order: 1;
+        }
+
+        #players > li {
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 ,
         #players > li[data-team="green"] {

@@ -26,12 +26,29 @@
   <div id="canvas" class="fullscreen">
   </div>
 
-  <div id="controls">
-    <div id="network-status">⬤</div>
-    <button id="ask-new-bubble">Ask new bubble</button>
-    <ul id="scores"></ul>
-    <ul id="players"></ul>
-  </div>
+  <aside id="controls">
+    <dl>
+      <dt>Network status</dt>
+      <dd id="network-status">⬤</dd>
+
+      <dt>Various controls</dt>
+      <dd>
+        <button id="ask-new-bubble">Ask new bubble</button>
+      </dd>
+
+      <dt>Scores</dt>
+      <dd>
+        <ul id="scores">
+        </ul>
+      </dd>
+
+      <dt>Players</dt>
+      <dd>
+        <ul id="players">
+        </ul>
+      </dd>
+    </dl>
+  </aside>
 
   <script src="public/javascript/game.js"></script>
 
