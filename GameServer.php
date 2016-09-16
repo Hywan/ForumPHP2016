@@ -178,4 +178,6 @@ $server->on(
     }
 );
 
+echo 'Server is listening…', "\n";
+
 $server->run();
