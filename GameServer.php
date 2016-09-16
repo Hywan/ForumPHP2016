@@ -65,6 +65,45 @@ class Player extends Websocket\Node implements JsonSerializable
     }
 }
 
+class Scores implements JsonSerializable
+{
+    protected $_scores = [];
+
+    public function addToTeam($team, $points)
+    {
+        if (!isset($this->_scores[$team])) {
+            $this->_scores[$team] = 0;
+        }
+
+        return $this->_scores[$team] += $points;
+    }
+
+    public function removeToTeam($team, $points)
+    {
+        if (!isset($this->_scores[$team])) {
+            $this->_scores[$team] = 0;
+        }
+
+        return $this->_scores[$team] -= $points;
+    }
+
+    public function getTotalForTeam($team)
+    {
+        if (!isset($this->_scores[$team])) {
+            return 0;
+        }
+
+        return $this->_scores[$team];
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->_scores;
+    }
+}
+
+$scores = new Scores();
+
 $server = new Websocket\Server(new Socket\Server('ws://127.0.0.1:8080'));
 $server->getConnection()->setNodeName(Player::class);
 
@@ -93,7 +132,7 @@ $server->on(
 
 $server->on(
     'message',
-    function (Event\Bucket $bucket) {
+    function (Event\Bucket $bucket) use ($scores) {
         $data       = $bucket->getData();
         $source     = $bucket->getSource();
         $connection = $source->getConnection();
@@ -170,6 +209,16 @@ $server->on(
                     json_encode([
                         'type' => 'client/bubble/delete',
                         'id'   => $message->id
+                    ])
+                );
+                $scores->addToTeam($node->getTeam(), 10);
+                $bucket->getSource()->broadcastIf(
+                    function () {
+                        return true;
+                    },
+                    json_encode([
+                        'type'   => 'client/scores',
+                        'scores' => $scores
                     ])
                 );
 

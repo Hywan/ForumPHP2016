@@ -55,6 +55,11 @@ function Game(uri, canvas) {
                 self.deleteBubble(bucket.id);
 
                 break;
+
+            case 'client/scores':
+                self.updateScores(bucket.scores);
+
+                break;
         }
     };
     this.controls      = new Controls();
@@ -130,6 +135,12 @@ Game.prototype.setCurrentPlayer = function (player) {
     this.currentPlayer = player;
 };
 
+Game.prototype.updateScores = function (scores) {
+    for (var team in scores) {
+        this.controls.updateScore(team, scores[team]);
+    }
+};
+
 function Player(id, pseudo, team) {
     this.id     = id;
     this.pseudo = pseudo;
@@ -196,6 +207,7 @@ Bubble.prototype.onclick = function () {
 
 function Controls() {
     this.players = document.getElementById('players');
+    this.scores  = document.getElementById('scores');
     this.html    = document.body.parentNode;
 }
 
@@ -210,13 +222,20 @@ Controls.prototype.networkStatus = function (status) {
 };
 
 Controls.prototype.newPlayer = function (player) {
-    var listItem = document.createElement('li');
-    listItem.setAttribute('data-id', player.id);
-    listItem.setAttribute('data-team', player.team);
-    listItem.innerHTML = player.pseudo;
-    self.players.appendChild(listItem);
+    var playerListItem = document.createElement('li');
+    playerListItem.setAttribute('data-id', player.id);
+    playerListItem.setAttribute('data-team', player.team);
+    playerListItem.innerHTML = player.pseudo;
+    this.players.appendChild(playerListItem);
 
-    return listItem;
+    if (null === this.scores.querySelector('li[data-team="' + player.team + '"]')) {
+        var scoreListItem = document.createElement('li');
+        scoreListItem.setAttribute('data-team', player.team);
+        scoreListItem.innerHTML = '0';
+        this.scores.appendChild(scoreListItem);
+    }
+
+    return playerListItem;
 };
 
 Controls.prototype.deletePlayer = function (id) {
@@ -228,9 +247,60 @@ Controls.prototype.deletePlayer = function (id) {
 };
 
 Controls.prototype.deletePlayers = function () {
-    while (self.players.firstChild) {
-        self.players.firstChild.remove();
+    while (this.players.firstChild) {
+        this.players.firstChild.remove();
     }
+};
+
+Controls.prototype.getScores = function () {
+    var out           = {};
+    var scoreElements = this.scores.querySelectorAll('li[data-team]');
+
+    for (var i = 0; i < scoreElements.length; ++i) {
+        var scoreElement = scoreElements.item(i);
+
+        out[scoreElement.getAttribute('data-team')] = parseInt(scoreElement.innerHTML);
+    }
+
+    return out;
+};
+
+Controls.prototype.getCurrentWinningTeam = function () {
+    var scores      = this.getScores();
+    var winnerTeam  = null;
+    var winnerScore = 0;
+
+    for (var team in scores) {
+        if (scores[team] > winnerScore) {
+            winnerTeam  = team;
+            winnerScore = scores[team];
+        }
+    }
+
+    return winnerTeam;
+};
+
+Controls.prototype.updateScore = function (team, point) {
+    var scoreElement = this.scores.querySelector('li[data-team="' + team + '"]');
+
+    if (null === scoreElement) {
+        return;
+    }
+
+    var teamIsWinning   = this.getCurrentWinningTeam() === team;
+    var teamOrder       = teamIsWinning ? 1 : 2;
+    var otherTeamsOrder = Math.abs(teamOrder - 3);
+
+    scoreElement.innerHTML   = point;
+    scoreElement.style.order = teamOrder;
+
+    var otherScoreElements = this.scores.querySelectorAll('li[data-team]:not([data-team="' + team + '"])');
+
+    for (var i = 0; i < otherScoreElements.length; ++i) {
+        var otherScoreElement         = otherScoreElements.item(i);
+        otherScoreElement.style.order = otherTeamsOrder;
+    }
+
 };
 
 var game = new Game(

@@ -88,24 +88,27 @@ html, body {
         margin-bottom: .5rem;
     }
 
-    #players {
+    #players,
+    #scores {
         list-style: none;
         display: flex;
         flex-direction: column;
     }
 
-        #players > li {
+        #players > li,
+        #scores > li {
             position: relative;
             display: block;
             text-align: left;
             order: 1;
         }
-
+,
         #players > li[data-team="green"] {
             order: 2;
         }
 
-        #players > li::before {
+        #players > li::before,
+        #scores > li::before {
             position: absolute;
             left: -1.5rem;
             width: 1rem;
@@ -118,6 +121,14 @@ html, body {
 
         #players > li[data-team="green"]::before {
             content: '💚';
+        }
+
+        #scores > li[data-team="yellow"]::before {
+            content: '🏅 💛';
+        }
+
+        #scores > li[data-team="green"]::before {
+            content: '🏅 💚';
         }
 
 .bubble__container {

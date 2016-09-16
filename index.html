@@ -15,7 +15,7 @@
     <form>
       <p>
         <label for="pseudo">Pseudo:</label>
-        <input type="text" id="pseudo" name="pseudo" maxlength="25" autofocus />
+        <input type="text" id="pseudo" name="pseudo" required maxlength="25" autofocus />
       </p>
       <p>
         <button type="submit">Join the game!</button>
@@ -29,8 +29,8 @@
   <div id="controls">
     <div id="network-status">⬤</div>
     <button id="ask-new-bubble">Ask new bubble</button>
-    <ul id="players">
-    </ul>
+    <ul id="scores"></ul>
+    <ul id="players"></ul>
   </div>
 
   <script src="public/javascript/game.js"></script>
