@@ -7,7 +7,7 @@ use Hoa\Event;
 use Hoa\Socket;
 use Hoa\Websocket;
 
-class Node extends Websocket\Node implements JsonSerializable
+class Player extends Websocket\Node implements JsonSerializable
 {
     const TEAM_ONE = 'green';
     const TEAM_TWO = 'yellow';
@@ -66,7 +66,7 @@ class Node extends Websocket\Node implements JsonSerializable
 }
 
 $server = new Websocket\Server(new Socket\Server('ws://127.0.0.1:8080'));
-$server->getConnection()->setNodeName(Node::class);
+$server->getConnection()->setNodeName(Player::class);
 
 $server->on(
     'open',
@@ -112,8 +112,8 @@ $server->on(
 
                 $players   = [];
                 $teamStats = [
-                    Node::TEAM_ONE => 0,
-                    Node::TEAM_TWO => 0
+                    Player::TEAM_ONE => 0,
+                    Player::TEAM_TWO => 0
                 ];
 
                 foreach ($connection->getNodes() as $playerNode) {
