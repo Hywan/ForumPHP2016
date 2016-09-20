@@ -68,14 +68,6 @@ function Game(uri, canvas) {
     this.players       = {};
     this.currentPlayer = null;
 
-    document.getElementById('ask-new-bubble').addEventListener(
-        'click',
-        function () {
-            self.askNewBubble();
-        },
-        false
-    );
-
     var intro = document.getElementById('intro');
     intro.addEventListener(
         'submit',
