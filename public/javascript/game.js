@@ -33,7 +33,7 @@ function Game(uri, canvas) {
                         var player = new Player(_player.id, _player.pseudo, _player.team);
 
                         self.players[player.id] = player;
-                        self.controls.newPlayer(player);
+                        self.controls.newPlayer(player, _player.id === self.currentPlayer.id);
                     }
                 );
 
@@ -82,10 +82,10 @@ function Game(uri, canvas) {
         function (event) {
             event.preventDefault();
 
-            var pseudo = document.getElementById('pseudo').value;
-            var id     = guid();
-            var player = new Player(id, pseudo);
-            self.setCurrentPlayer(player);
+            var pseudo         = document.getElementById('pseudo').value;
+            var id             = guid();
+            var player         = new Player(id, pseudo);
+            self.currentPlayer = player;
             self.connection.send(
                 JSON.stringify({
                     'type'  : 'server/player/new',
@@ -129,10 +129,6 @@ Game.prototype.deleteBubble = function (id) {
     this.bubbles[id].explode();
 
     delete this.bubbles[id];
-};
-
-Game.prototype.setCurrentPlayer = function (player) {
-    this.currentPlayer = player;
 };
 
 Game.prototype.updateScores = function (scores) {
@@ -221,11 +217,11 @@ Controls.prototype.networkStatus = function (status) {
     }
 };
 
-Controls.prototype.newPlayer = function (player) {
+Controls.prototype.newPlayer = function (player, me) {
     var playerListItem = document.createElement('li');
     playerListItem.setAttribute('data-id', player.id);
     playerListItem.setAttribute('data-team', player.team);
-    playerListItem.innerHTML = player.pseudo;
+    playerListItem.innerHTML = player.pseudo + (me ? ' (me)' : '');
     this.players.appendChild(playerListItem);
 
     if (null === this.scores.querySelector('li[data-team="' + player.team + '"]')) {
