@@ -96,6 +96,8 @@ function Game(uri, canvas) {
 
             intro.setAttribute('aria-hidden', 'true');
 
+            self.emitBubbles();
+
             return false;
         },
         false
@@ -108,6 +110,21 @@ Game.prototype.askNewBubble = function () {
             'type': 'server/bubble/new',
             'id'  : guid()
         })
+    );
+};
+
+Game.prototype.emitBubbles = function () {
+    var self            = this;
+    var numberOfPlayers = Object.keys(self.players).length || 1;
+    var basis           = 2500 * numberOfPlayers;
+
+    self.askNewBubble();
+
+    setTimeout(
+        function () {
+            self.emitBubbles();
+        },
+        basis - (Math.random() * (basis / 10) * (Math.random() > .5 ? -1 : 1))
     );
 };
 
