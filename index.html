@@ -10,7 +10,7 @@
 
   <link type="text/css" href="public/css/core.css" rel="stylesheet" />
 </head>
-<body>
+<body contextmenu="menu">
   <div id="intro" class="fullscreen" aria-hidden="false">
     <form>
       <p>
@@ -50,7 +50,11 @@
     </dl>
   </aside>
 
-  <script src="public/javascript/game.js"></script>
+  <menu id="menu" type="context">
+    <menuitem onclick="menu('documentation')">hoa/websocket's documentation</menuitem>
+    <menuitem onclick="menu('sources')">Sources on Github</menuitem>
+  </menu>
 
+  <script src="public/javascript/game.js"></script>
 </body>
 </html>
