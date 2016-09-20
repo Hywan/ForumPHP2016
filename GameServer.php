@@ -178,6 +178,12 @@ $server->on(
                         'players' => $players
                     ])
                 );
+                $source->send(
+                    json_encode([
+                        'type'   => 'client/scores',
+                        'scores' => $scores
+                    ])
+                );
                 $source->broadcast(
                     json_encode([
                         'type'   => 'client/player/new',
