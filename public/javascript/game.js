@@ -287,11 +287,12 @@ Controls.prototype.updateScore = function (team, point) {
         return;
     }
 
+    scoreElement.innerHTML = point;
+
     var teamIsWinning   = this.getCurrentWinningTeam() === team;
     var teamOrder       = teamIsWinning ? 1 : 2;
     var otherTeamsOrder = Math.abs(teamOrder - 3);
 
-    scoreElement.innerHTML   = point;
     scoreElement.style.order = teamOrder;
 
     var otherScoreElements = this.scores.querySelectorAll('li[data-team]:not([data-team="' + team + '"])');
