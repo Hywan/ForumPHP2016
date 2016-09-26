@@ -110,14 +110,15 @@ $server->getConnection()->setNodeName(Player::class);
 $server->on(
     'open',
     function (Event\Bucket $bucket) {
-        var_dump('new player');
+        echo 'New player', "\n";
     }
 );
 
 $server->on(
     'close',
     function (Event\Bucket $bucket) {
-        var_dump('loss player');
+        echo 'Loss player', "\n";
+
         $source = $bucket->getSource();
         $node   = $source->getConnection()->getCurrentNode();
 
@@ -204,7 +205,8 @@ $server->on(
                         'type'   => 'client/bubble/new',
                         'id'     => Consistency::uuid(),
                         'offset' => mt_rand(0, 100),
-                        'radius' => mt_rand(4, 120)
+                        'radius' => mt_rand(20, 120),
+                        'team'   => mt_rand(0, 1) ? Player::TEAM_ONE : Player::TEAM_TWO
                     ])
                 );
 
@@ -217,7 +219,15 @@ $server->on(
                         'id'   => $message->id
                     ])
                 );
-                $scores->addToTeam($node->getTeam(), 10);
+
+                $nodeTeam = $node->getTeam();
+
+                if ($message->team === $nodeTeam) {
+                    $scores->addToTeam($nodeTeam, 10);
+                } else {
+                    $scores->removeToTeam($nodeTeam, 20);
+                }
+
                 $bucket->getSource()->broadcastIf(
                     function () {
                         return true;

@@ -47,7 +47,12 @@ function Game(uri, canvas) {
                 break;
 
             case 'client/bubble/new':
-                self.newBubble(bucket.id, bucket.offset, bucket.radius);
+                self.newBubble(
+                    bucket.id,
+                    bucket.offset,
+                    bucket.radius,
+                    bucket.team
+                );
 
                 break;
 
@@ -120,8 +125,8 @@ Game.prototype.emitBubbles = function () {
     );
 };
 
-Game.prototype.newBubble = function (id, offset, radius) {
-    var bubble = new Bubble(id, offset, radius);
+Game.prototype.newBubble = function (id, offset, radius, team) {
+    var bubble = new Bubble(id, offset, radius, team);
     bubble.into(this.canvas);
     bubble.connect(this.connection);
 
@@ -152,13 +157,15 @@ function Player(id, pseudo, team) {
     this.team   = team;
 }
 
-function Bubble(id, offset, radius) {
+function Bubble(id, offset, radius, team) {
     this.id      = id;
+    this.team    = team;
     var diameter = radius * 2;
 
     var bubbleElement = document.createElement('div');
     bubbleElement.classList.add('bubble');
     bubbleElement.setAttribute('data-id', this.id);
+    bubbleElement.setAttribute('data-team', this.team);
 
     var containerElement = document.createElement('div');
     containerElement.classList.add('bubble__container');
@@ -204,6 +211,7 @@ Bubble.prototype.onclick = function () {
             JSON.stringify({
                 'type': 'server/bubble/delete',
                 'id'  : this.id,
+                'team': this.team,
                 'time': date.getTime() + '' + date.getMilliseconds()
             })
         );
