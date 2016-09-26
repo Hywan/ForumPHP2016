@@ -1,3 +1,14 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: Text;
+    src: url('../fonts/Roboto-Regular-webfont.woff') format('woff'),
+         url('../fonts/Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Roboto-Regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -25,6 +36,10 @@ html, body {
     html.network-status-offline #network-status {
         color: rgb(254, 71, 71);
     }
+
+body {
+    font: 1rem/1.2 Text, "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 .fullscreen {
     position: absolute;
@@ -92,16 +107,18 @@ html, body {
     overflow: auto;
     width: 11rem;
     max-height: calc(100% - 2rem);
+    text-align: end;
     background: rgba(255, 255, 255, .4);
 }
 
     #controls > dl > dt {
         font-weight: bold;
+        font-variant: all-small-caps;
         margin-bottom: .3rem;
     }
 
-    #controls > dl > dd {
-        margin-bottom: 1rem;
+    #controls > dl > dd + dt {
+        margin-top: 1rem;
     }
 
     #players,
@@ -115,7 +132,6 @@ html, body {
         #scores > li {
             position: relative;
             display: block;
-            text-align: left;
             order: 1;
         }
 
