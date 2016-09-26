@@ -153,7 +153,7 @@ function Player(id, pseudo, team) {
 }
 
 function Bubble(id, offset, radius) {
-    this.id = id;
+    this.id      = id;
     var diameter = radius * 2;
 
     var bubbleElement = document.createElement('div');
@@ -163,7 +163,7 @@ function Bubble(id, offset, radius) {
     var containerElement = document.createElement('div');
     containerElement.classList.add('bubble__container');
     containerElement.appendChild(bubbleElement);
-    containerElement.style.left   = offset + 'vw';
+    containerElement.style.left   = 'calc(' + offset + 'vw - 12rem)';
     containerElement.style.width  = diameter + 'px';
     containerElement.style.height = diameter + 'px';
 

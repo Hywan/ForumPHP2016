@@ -76,6 +76,14 @@ html, body {
     overflow: hidden;
 }
 
+[data-team="green"] {
+    color: green;
+}
+
+[data-team="yellow"] {
+    color: yellow;
+}
+
 #controls {
     position: absolute;
     top: 1rem;
@@ -118,14 +126,6 @@ html, body {
 ,
         #players > li[data-team="green"] {
             order: 2;
-        }
-
-        [data-team="yellow"] {
-            color: yellow;
-        }
-
-        [data-team="green"] {
-            color: green;
         }
 
 .bubble__container {
