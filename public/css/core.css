@@ -41,6 +41,10 @@ body {
     font: 1rem/1.2 Text, "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+input, button {
+    font: inherit;
+}
+
 .fullscreen {
     position: absolute;
     top: 0;
@@ -64,7 +68,8 @@ body {
 
     #intro > form {
         display: block;
-        width: 50%;
+        width: 80%;
+        max-width: 600px;
         margin: auto;
         padding: 2.5rem 3rem;
         border: 2px rgba(255, 255, 255, .5) solid;
@@ -73,13 +78,14 @@ body {
     }
 
     #intro > form p {
-        display: flex;
+        text-align: center;
     }
 
-    #intro > form > p > label {
-        width: 30%;
-        padding-inline-end: 1rem;
-        text-align: end;
+    #intro > form > p > input {
+        width: 80%;
+        min-width: 5rem;
+        max-width: 12rem;
+        margin-top: .5rem;
     }
 
     #intro > form > p > button {
@@ -164,12 +170,16 @@ body {
     background: rgba(255, 255, 255, .4);
 }
 
-button {
+input, button {
+    text-align: center;
     padding: .2rem .5rem;
     border: 1px rgba(255, 255, 255, .5) solid;
-    border-radius: .5rem;
-    background: rgba(255, 255, 255, .5);
+    border-radius: .2rem;
 }
+
+    button {
+        background: rgba(255, 255, 255, .5);
+    }
 
 @keyframes zigzag_x {
     from {
