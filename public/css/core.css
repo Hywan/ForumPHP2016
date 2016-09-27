@@ -19,30 +19,27 @@ html, body {
     height: 100%;
     width: 100%
     overflow: hidden;
-    background-color: rgb(48, 107, 181);
+    background-color: hsl(213, 58%, 45%);
     background-image:
-        linear-gradient(rgb(68, 120, 188) 2px, transparent 2px),
-        linear-gradient(90deg, rgb(68, 120, 188) 2px, transparent 2px),
-        linear-gradient(rgb(68, 120, 188) 1px, transparent 1px),
-        linear-gradient(90deg, rgb(68, 120, 188) 1px, transparent 1px);
+        linear-gradient(hsl(214, 47%, 50%) 2px, transparent 2px),
+        linear-gradient(90deg, hsl(214, 47%, 50%) 2px, transparent 2px),
+        linear-gradient(hsl(214, 47%, 50%) 1px, transparent 1px),
+        linear-gradient(90deg, hsl(214, 47%, 50%) 1px, transparent 1px);
     background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
     background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
 }
 
     html.network-status-online #network-status {
-        color: rgb(81, 212, 13);
+        color: hsl(99, 88%, 44%);
     }
 
     html.network-status-offline #network-status {
-        color: rgb(254, 71, 71);
+        color: hsl(0, 99%, 64%);
     }
 
 body {
     font: 1rem/1.2 Text, "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-input, button {
-    font: inherit;
+    color: #fff;
 }
 
 .fullscreen {
@@ -62,7 +59,7 @@ input, button {
 #intro {
     display: flex;
     flex-direction: row;
-    background: rgba(48, 107, 181, .85);
+    background: hsla(213, 58%, 45%, .85);
     z-index: 1;
 }
 
@@ -72,9 +69,8 @@ input, button {
         max-width: 600px;
         margin: auto;
         padding: 2.5rem 3rem;
-        border: 2px rgba(255, 255, 255, .5) solid;
-        border-radius: .5rem;
-        background: rgba(255, 255, 255, .1);
+        border: 2px hsla(0, 0%, 100%, .5) solid;
+        background: hsla(0, 0%, 100%, .1);
     }
 
     #intro > form p {
@@ -98,11 +94,11 @@ input, button {
 }
 
 [data-team="green"] {
-    color: green;
+    color: hsl(78, 69%, 47%);
 }
 
 [data-team="yellow"] {
-    color: yellow;
+    color: hsl(56, 73%, 49%);
 }
 
 #controls {
@@ -114,7 +110,6 @@ input, button {
     width: 11rem;
     max-height: calc(100% - 2rem);
     text-align: end;
-    background: rgba(255, 255, 255, .4);
 }
 
     #controls > dl > dt {
@@ -167,18 +162,19 @@ input, button {
     border-radius: 50%;
     animation: 10s linear 0s infinite zigzag_y;
     border: 3px currentColor solid;
-    background: rgba(255, 255, 255, .4);
+    background: hsla(0, 0%, 100%, .25);
 }
 
 input, button {
+    font: inherit;
     text-align: center;
     padding: .2rem .5rem;
-    border: 1px rgba(255, 255, 255, .5) solid;
+    border: 2px hsla(0, 0%, 100%, .5) solid;
     border-radius: .2rem;
 }
 
     button {
-        background: rgba(255, 255, 255, .5);
+        background: hsla(0, 0%, 100%, .5);
     }
 
 @keyframes zigzag_x {
