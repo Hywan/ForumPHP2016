@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="en" class="network-status-offline">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+  <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="theme-color" content="#b24646" />
+
+  <link type="text/css" href="public/css/core.css" rel="stylesheet" />
+</head>
+<body contextmenu="menu">
+  <section id="intro" class="fullscreen" aria-hidden="true">
+    <form name="pseudo">
+      <p>
+        <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" required maxlength="25" autofocus />
+      </p>
+      <p>
+        <button type="submit">Join the chat!</button>
+      </p>
+    </form>
+  </section>
+
+  <section id="chat">
+    <h2>Discussion</h2>
+    <ul id="thread">
+      <li data-message-type="other">
+        <aside><img src="https://avatars3.githubusercontent.com/u/327237?s=60" alt="" role="presentation" />jubianchi</aside>
+        Hello!
+      </li>
+      <li data-message-type="me">
+        <aside><img src="https://avatars0.githubusercontent.com/u/946104?s=60" alt="" role="presentation" />Hywan</aside>
+        Hello!
+      </li>
+      <li>
+        <aside><img src="https://avatars3.githubusercontent.com/u/327237?s=60" alt="" role="presentation" />jubianchi</aside>
+        How are you?
+      </li>
+      <li data-message-type="info">
+        Big news buddy.
+      </li>
+      <li>
+        <aside><img src="https://avatars3.githubusercontent.com/u/327237?s=60" alt="" role="presentation" />jubianchi</aside>
+        Good?
+      </li>
+    </ul>
+
+    <h2>Send a message</h2>
+    <form id="shootbox" name="shootbox">
+      <input type="text" id="message" name="message" placeholder="Your message…" required />
+      <button>
+        <svg viewBox="0 0 100 100">
+          <path d="M 55,50 32,43 25,25 75,50 25,75 32,57 55,50z" />
+        </svg>
+      </button>
+    </form>
+  </section>
+
+  <footer id="controls">
+    <dl>
+      <dt>Network status</dt>
+      <dd id="network-status">⬤</dd>
+
+      <dt>People (<span id="peopleCounter">0</span>)</dt>
+      <dd>
+        <ul id="people">
+          <li><img src="https://avatars0.githubusercontent.com/u/946104?s=60" alt="Hywan" /></li>
+          <li><img src="https://avatars3.githubusercontent.com/u/668738?s=60" alt="CircleCode" /></li>
+          <li><img src="https://avatars3.githubusercontent.com/u/327237?s=60" alt="jubianchi" /></li>
+        </ul>
+      </dd>
+    </dl>
+  </footer>
+
+  <menu id="menu" type="context">
+    <menuitem onclick="menu('documentation')">hoa/websocket's documentation</menuitem>
+    <menuitem onclick="menu('sources')">Sources on Github</menuitem>
+  </menu>
+
+  <script src="public/javascript/chat.js"></script>
+</body>
+</html>

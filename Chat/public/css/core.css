@@ -1,0 +1,172 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: Text;
+    src: url('../fonts/Roboto-Regular-webfont.woff') format('woff'),
+         url('../fonts/Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Roboto-Regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%
+    overflow: hidden;
+    background-color: hsl(0, 0%, 100%);
+}
+
+body {
+    font: 1rem/1.2 Text, "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #d5d5cb;
+    background-image:
+        repeating-linear-gradient(120deg, rgba(255,255,255,.05), rgba(255,255,255,.05) 1px, transparent 1px, transparent 60px),
+        repeating-linear-gradient(60deg, rgba(255,255,255,.05), rgba(255,255,255,.05) 1px, transparent 1px, transparent 60px),
+        linear-gradient(60deg, rgba(0,0,0,.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.05) 75%, rgba(0,0,0,.05)),
+        linear-gradient(120deg, rgba(0,0,0,.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.05) 75%, rgba(0,0,0,.05));
+    background-size: 70px 120px;
+}
+
+#chat {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 1rem 1rem 0 1rem;
+    width: 100%;
+    max-width: 42rem;
+    height: calc(100vh - 5rem);
+}
+
+    #chat h2 {
+        display: none;
+    }
+
+    #thread {
+        flex: 1;
+    }
+
+    #shootbox {
+        display: flex;
+    }
+
+    #message {
+        flex: 1;
+        padding: .6rem .8rem;
+        border-radius: .3rem;
+        border: none;
+    }
+
+#thread {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+    #thread li {
+        width: 80%;
+        padding: .5rem 1.8rem;
+        border-radius: .3rem;
+        background: hsl(0, 0%, 100%);
+    }
+
+    #thread li:not(:first-child) {
+        margin-top: 1rem;
+    }
+
+    #thread [data-message-type="me"] {
+        align-self: flex-end;
+        text-align: right;
+    }
+
+    #thread [data-message-type="info"] {
+        align-self: center;
+        text-align: center;
+        width: 50%;
+        background: hsl(198, 68%, 91%);
+    }
+
+    #thread aside {
+        position: relative;
+        font-size: small;
+        margin-bottom: .3rem;
+    }
+
+    #thread aside img {
+        position: absolute;
+        top: -1rem;
+        left: -2.5rem;
+        width: 2.2rem;
+        height: 2.2rem;
+        border: 4px transparent solid;
+        border-radius: 50%;
+        background: #d5d5cb;
+    }
+
+    #thread [data-message-type="me"] aside img {
+        left: auto;
+        right: -2.5rem;
+    }
+
+#shootbox button {
+    width: 4rem;
+    border: none;
+    border-radius: 50%;
+    margin-left: 1rem;
+    background: hsl(112, 28%, 47%);
+}
+
+#controls {
+    color: hsl(0, 0%, 100%);
+    text-align: center;
+    margin-top: 1rem;
+}
+
+    #controls > dl > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    #controls > dl > dt ~ dt {
+        margin-left: 1rem;
+    }
+
+    #people {
+        list-style: none;
+    }
+
+    #people > li {
+        display: inline-block;
+    }
+
+    #people img {
+        height: 2.5rem;
+        border-radius: 50%;
+        margin-right: .5rem;
+    }
+
+[aria-hidden="true"] {
+    display: none;
+}
+
+input, button {
+    font: inherit;
+}
+
+svg {
+    color: hsl(0, 0%, 100%);
+    height: 80%;
+}
+
+svg path {
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: .5rem;
+    stroke-linejoin: round;
+    transform: translateX(4%);
+}
