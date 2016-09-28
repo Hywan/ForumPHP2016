@@ -122,9 +122,10 @@ body {
 }
 
 #controls {
-    color: hsl(0, 0%, 100%);
+    font-size: small;
     text-align: center;
-    margin-top: 1rem;
+    margin: 1rem auto 0;
+    max-width: 42rem;
 }
 
     #controls > dl > * {
@@ -138,16 +139,11 @@ body {
 
     #people {
         list-style: none;
+        overflow: hidden;
     }
 
     #people > li {
         display: inline-block;
-    }
-
-    #people img {
-        height: 2.5rem;
-        border-radius: 50%;
-        margin-right: .5rem;
     }
 
 [aria-hidden="true"] {
