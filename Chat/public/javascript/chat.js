@@ -116,6 +116,8 @@ Chat.prototype.newMessage = function (person, message) {
     messageElement.appendChild(messageBodyElement);
 
     this.thread.appendChild(messageElement);
+
+    this.thread.scrollBy(0, 1000000);
 };
 
 Chat.prototype.updatePersonCounter = function () {
