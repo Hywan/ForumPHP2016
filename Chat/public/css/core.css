@@ -41,6 +41,56 @@ body {
     background-size: 70px 120px;
 }
 
+.fullscreen {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    transition: transform 300ms cubic-bezier(1, .41, 0, 1);
+}
+
+    .fullscreen[aria-hidden="true"] {
+        transform: translateY(-200vh);
+    }
+
+#intro {
+    display: flex;
+    flex-direction: row;
+    background: hsla(0, 0%, 100%, .7);
+    z-index: 1;
+}
+
+    #intro > form {
+        display: block;
+        width: 100%;
+        margin: auto;
+    }
+
+    #intro > form p {
+        text-align: center;
+    }
+
+    #pseudo {
+        width: 80%;
+        min-width: 10rem;
+        max-width: 18rem;
+        margin-top: .5rem;
+        text-align: center;
+        padding: .5rem 1rem;
+        border: 0;
+    }
+
+    #intro > form > p > button {
+        display: block;
+        color: hsl(0, 0%, 100%);
+        margin: 1rem auto 0 auto;
+        padding: .5rem 1rem;
+        border: 0;
+        background: hsl(112, 28%, 47%);
+    }
+
 #chat {
     display: flex;
     flex-direction: column;
@@ -66,8 +116,6 @@ body {
     #message {
         flex: 1;
         padding: .6rem .8rem;
-        border-radius: .3rem;
-        border: none;
     }
 
 #thread {
@@ -168,6 +216,8 @@ body {
 
 input, button {
     font: inherit;
+    border-radius: .3rem;
+    border: none;
 }
 
 svg {

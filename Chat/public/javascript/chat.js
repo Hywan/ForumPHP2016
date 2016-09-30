@@ -62,8 +62,34 @@ function Chat(uri) {
     this.currentPerson = null;
     this.thread        = document.getElementById('thread');
 
+    var intro    = document.getElementById('intro');
     var shootbox = document.getElementById('shootbox');
     var message  = document.getElementById('message');
+
+    intro.addEventListener(
+        'submit',
+        function (event) {
+            event.preventDefault();
+
+            var pseudo         = document.getElementById('pseudo').value;
+            var id             = guid();
+            var person         = new Person(id, pseudo);
+            self.currentPerson = person;
+            self.connection.send(
+                JSON.stringify({
+                    'type'  : 'server/person/new',
+                    'id'    : person.id,
+                    'pseudo': person.pseudo
+                })
+            );
+
+            intro.setAttribute('aria-hidden', 'true');
+            message.focus();
+
+            return false;
+        },
+        false
+    );
 
     shootbox.addEventListener(
         'submit',
@@ -83,22 +109,6 @@ function Chat(uri) {
             return false;
         },
         false
-    );
-
-    window.setTimeout(
-        function () {
-            var person         = new Person(guid(), 'Hywan');
-            self.currentPerson = person;
-
-            self.connection.send(
-                JSON.stringify({
-                    'type'  : 'server/person/new',
-                    'id'    : person.id,
-                    'pseudo': person.pseudo
-                })
-            );
-        },
-        1000
     );
 }
 
