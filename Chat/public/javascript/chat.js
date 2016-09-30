@@ -40,5 +40,21 @@ Controls.prototype.networkStatus = function (status) {
     }
 };
 
+function menu(item) {
+    switch (item) {
+        case 'documentation':
+            window.open('https://hoa-project.net/Literature/Hack/Websocket.html');
+
+            break;
+
+        case 'sources':
+            window.open('https://github.com/Hywan/ForumPHP2016');
+
+            break;
+
+        default:
+            console.error('Menu option “' + item + '” is unknown.');
+    }
+};
 
 new Chat('ws://127.0.0.1:8080');
