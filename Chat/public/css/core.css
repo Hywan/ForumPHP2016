@@ -48,7 +48,7 @@ body {
     padding: 1rem 1rem 0 1rem;
     width: 100%;
     max-width: 42rem;
-    height: calc(100vh - 5rem);
+    height: calc(100vh - 3rem);
 }
 
     #chat h2 {
@@ -73,7 +73,11 @@ body {
 #thread {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
     list-style: none;
+    margin-bottom: 1rem;
+    padding: 1rem 1rem 0 1rem
 }
 
     #thread li {
@@ -120,6 +124,10 @@ body {
         left: auto;
         right: -2.5rem;
     }
+
+#shootbox input:invalid {
+    box-shadow: none;
+}
 
 #shootbox button {
     width: 4rem;
