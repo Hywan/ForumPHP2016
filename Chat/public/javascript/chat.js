@@ -22,10 +22,7 @@ function Chat(uri) {
 
                 self.persons[person.id] = person;
                 self.updatePersonCounter();
-                self.newMessage(
-                    'info',
-                    person.pseudo + ' has joined this channel.'
-                );
+                self.newMessage('info', person.pseudo + ' has joined this channel.');
 
                 break;
 
@@ -42,6 +39,7 @@ function Chat(uri) {
                 break;
             
             case 'client/person/delete':
+                self.newMessage('info', self.persons[bucket.id].pseudo + ' has left this channel.');
                 delete self.persons[bucket.id];
                 self.updatePersonCounter();
 
