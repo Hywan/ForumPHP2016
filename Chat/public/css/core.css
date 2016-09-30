@@ -22,6 +22,14 @@ html, body {
     background-color: hsl(0, 0%, 100%);
 }
 
+    html.network-status-online #network-status {
+        color: hsl(99, 88%, 44%);
+    }
+
+    html.network-status-offline #network-status {
+        color: hsl(0, 99%, 64%);
+    }
+
 body {
     font: 1rem/1.2 Text, "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #d5d5cb;

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "hoa/websocket": "~3.0"
+    }
+}
