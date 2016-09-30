@@ -22,6 +22,10 @@ function Chat(uri) {
 
                 self.persons[person.id] = person;
                 self.updatePersonCounter();
+                self.newMessage(
+                    'info',
+                    person.pseudo + ' has joined this channel.'
+                );
 
                 break;
 
@@ -44,7 +48,13 @@ function Chat(uri) {
                 break;
 
             case 'client/message/new':
-                self.newMessage(self.persons[bucket.personId], bucket.message);
+                var _person = self.persons[bucket.personId];
+
+                self.newMessage(
+                    _person.id === self.currentPerson.id ? 'me' : 'other',
+                    bucket.message,
+                    _person
+                );
             
                 break;
         }
@@ -68,7 +78,7 @@ function Chat(uri) {
                     'message': message.value
                 })
             );
-            self.newMessage(self.currentPerson, message.value);
+            self.newMessage('me', message.value, self.currentPerson);
 
             message.value = '';
 
@@ -94,29 +104,29 @@ function Chat(uri) {
     );
 }
 
-Chat.prototype.newMessage = function (person, message) {
-    var messageElement       = document.createElement('li');
-    var messageHeaderElement = document.createElement('aside');
-    var messageAvatarElement = document.createElement('img');
-    var messagePseudoElement = document.createTextNode(person.pseudo);
-    var messageBodyElement   = document.createTextNode(message);
+Chat.prototype.newMessage = function (messageType, message, person) {
+    var messageElement     = document.createElement('li');
+    var messageBodyElement = document.createTextNode(message);
 
-    messageAvatarElement.setAttribute('src', '…');
-    messageAvatarElement.setAttribute('alt', '');
-    messageAvatarElement.setAttribute('role', 'presentation');
+    if ('other' === messageType || 'me' === messageType) {
+        var messageHeaderElement = document.createElement('aside');
+        var messageAvatarElement = document.createElement('img');
+        var messagePseudoElement = document.createTextNode(person.pseudo);
 
-    messageHeaderElement.appendChild(messageAvatarElement);
-    messageHeaderElement.appendChild(messagePseudoElement);
+        messageAvatarElement.setAttribute('src', '…');
+        messageAvatarElement.setAttribute('alt', '');
+        messageAvatarElement.setAttribute('role', 'presentation');
 
-    if (person.id === this.currentPerson.id) {
-        messageElement.setAttribute('data-message-type', 'me');
+        messageHeaderElement.appendChild(messageAvatarElement);
+        messageHeaderElement.appendChild(messagePseudoElement);
+
+        messageElement.appendChild(messageHeaderElement);
     }
 
-    messageElement.appendChild(messageHeaderElement);
+    messageElement.setAttribute('data-message-type', messageType);
     messageElement.appendChild(messageBodyElement);
 
     this.thread.appendChild(messageElement);
-
     this.thread.scrollBy(0, 1000000);
 };
 
