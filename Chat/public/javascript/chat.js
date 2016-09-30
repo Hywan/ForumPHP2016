@@ -111,7 +111,7 @@ Chat.prototype.newMessage = function (messageType, message, person) {
         var messageAvatarElement = document.createElement('img');
         var messagePseudoElement = document.createTextNode(person.pseudo);
 
-        messageAvatarElement.setAttribute('src', '…');
+        messageAvatarElement.setAttribute('src', 'https://github.com/' + person.pseudo + '.png?size=40');
         messageAvatarElement.setAttribute('alt', '');
         messageAvatarElement.setAttribute('role', 'presentation');
 
