@@ -37,7 +37,7 @@ function Chat(uri) {
                 self.updatePersonCounter();
 
                 break;
-            
+
             case 'client/person/delete':
                 self.newMessage('info', self.persons[bucket.id].pseudo + ' has left this channel.');
                 delete self.persons[bucket.id];
@@ -53,7 +53,25 @@ function Chat(uri) {
                     bucket.message,
                     _person
                 );
-            
+
+                break;
+
+            case 'client/person/active':
+                if (self.persons[bucket.id]) {
+                    self.persons[bucket.id].active = true;
+                }
+
+                self.updateActivity();
+
+                break;
+
+            case 'client/person/inactive':
+                if (self.persons[bucket.id]) {
+                    self.persons[bucket.id].active = false;
+                }
+
+                self.updateActivity();
+
                 break;
         }
     };
@@ -61,6 +79,7 @@ function Chat(uri) {
     this.persons       = {};
     this.currentPerson = null;
     this.thread        = document.getElementById('thread');
+    this.activity      = document.getElementById('activity');
 
     var intro    = document.getElementById('intro');
     var shootbox = document.getElementById('shootbox');
@@ -89,6 +108,37 @@ function Chat(uri) {
             return false;
         },
         false
+    );
+
+    shootbox.addEventListener(
+        'keyup',
+        new function () {
+            var active = false;
+
+            return function (event) {
+                var text = message.value;
+
+                if (true === active && ('' === text || 'Enter' === event.key)) {
+                    active = false;
+                    self.connection.send(
+                        JSON.stringify({
+                            'type'  : 'server/person/inactive',
+                            'id'    : self.currentPerson.id,
+                            'pseudo': self.currentPerson.pseudo
+                        })
+                    );
+                } else if (false === active && ('' !== text)) {
+                    active = true;
+                    self.connection.send(
+                        JSON.stringify({
+                            'type'  : 'server/person/active',
+                            'id'    : self.currentPerson.id,
+                            'pseudo': self.currentPerson.pseudo
+                        })
+                    );
+                }
+            }
+        }
     );
 
     shootbox.addEventListener(
@@ -142,9 +192,49 @@ Chat.prototype.updatePersonCounter = function () {
     document.getElementById('personCounter').innerHTML = Object.keys(this.persons).length;
 };
 
+Chat.prototype.updateActivity = function () {
+    var self                  = this;
+    var numberOfActivePersons = 0;
+
+    var activePersons =
+        Object
+            .keys(this.persons)
+            .filter(
+                function (key) {
+                    console.log(self.persons[key]);
+                    return self.persons[key].active;
+                }
+            )
+            .map(
+                function (key) {
+                    ++numberOfActivePersons;
+
+                    return self.persons[key].pseudo;
+                }
+            )
+            .join(', ');
+
+    console.log(numberOfActivePersons, activePersons);
+
+    if (0 === numberOfActivePersons) {
+        this.activity.setAttribute('aria-hidden', 'true');
+        this.activity.innerHTML = '';
+
+        return;
+    }
+
+    this.activity.setAttribute('aria-hidden', 'false');
+    this.activity.innerHTML =
+        activePersons + ' ' +
+        (numberOfActivePersons > 1 ? 'are' : 'is') + ' typing…';
+
+    return;
+};
+
 function Person(id, pseudo) {
     this.id     = id;
     this.pseudo = pseudo;
+    this.active = false;
 }
 
 function Controls() {

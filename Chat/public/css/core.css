@@ -173,6 +173,19 @@ body {
         right: -2.5rem;
     }
 
+#activity {
+    display: flex !important;
+    flex-direction: row;
+    list-style: none;
+    font-size: small;
+    height: 1rem;
+    margin-bottom: .3rem;
+}
+
+    #activity[aria-hidden="true"] {
+        visibility: hidden;
+    }
+
 #shootbox input:invalid {
     box-shadow: none;
 }
