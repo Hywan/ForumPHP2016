@@ -59,7 +59,7 @@ body {
     display: flex;
     flex-direction: row;
     background: hsla(0, 0%, 100%, .7);
-    z-index: 1;
+    z-index: 3;
 }
 
     #intro > form {
@@ -174,21 +174,61 @@ body {
     }
 
 #activity {
+    position: relative;
     display: flex !important;
     flex-direction: row;
     list-style: none;
     font-size: small;
     height: 1rem;
+    margin-right: 5rem;
     margin-bottom: .3rem;
+    padding-left: 3.4rem;
 }
 
     #activity[aria-hidden="true"] {
         visibility: hidden;
     }
 
-#shootbox input:invalid {
-    box-shadow: none;
+    #activity-message {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+#activity-loader {
+    position: absolute;
+    top: -.8rem;
+    left: 0;
+    height: 2.8rem;
+    z-index: 1;
 }
+
+    #activity-loader > circle {
+        fill: hsl(0, 0%, 100%);
+        animation-play-state: running;
+        transform: translateY(100%);
+        animation: 2s ease-in-out 0s infinite normal bloup; 
+    }
+
+    #activity-loader > circle:nth-child(2) {
+        animation-delay: .2s;
+    }
+
+    #activity-loader > circle:nth-child(3) {
+        animation-delay: .4s;
+    }
+
+    #activity[aria-hidden="true"] #activity-loader > circle {
+        animation-play-state: paused;
+    }
+
+#shootbox {
+    z-index: 2;
+}
+
+    #shootbox input:invalid {
+        box-shadow: none;
+    }
 
 #shootbox button {
     width: 4rem;
@@ -244,4 +284,14 @@ svg path {
     stroke-width: .5rem;
     stroke-linejoin: round;
     transform: translateX(4%);
+}
+
+@keyframes bloup {
+    0%, 50% {
+        transform: translateY(100%);
+    }
+
+    25% {
+        transform: translateY(0);
+    }
 }

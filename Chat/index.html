@@ -28,6 +28,12 @@
     </ul>
 
     <p id="activity" aria-hidden="true">
+      <svg viewBox="0 0 120 100" role="presentation" id="activity-loader">
+        <circle cx="30" cy="15" r="10" />
+        <circle cx="60" cy="15" r="10" />
+        <circle cx="90" cy="15" r="10" />
+      </svg>
+      <span id="activity-message"></span>
     </p>
 
     <h2>Send a message</h2>
@@ -35,6 +41,7 @@
       <input type="text" id="message" name="message" placeholder="Your message…" autocomplete="off" required autofocus />
       <button>
         <svg viewBox="0 0 100 100">
+          <title>Submit the message</title>
           <path d="M 55,50 32,43 25,25 75,50 25,75 32,57 55,50z" />
         </svg>
       </button>

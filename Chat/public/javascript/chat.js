@@ -75,11 +75,12 @@ function Chat(uri) {
                 break;
         }
     };
-    this.controls      = new Controls();
-    this.persons       = {};
-    this.currentPerson = null;
-    this.thread        = document.getElementById('thread');
-    this.activity      = document.getElementById('activity');
+    this.controls        = new Controls();
+    this.persons         = {};
+    this.currentPerson   = null;
+    this.thread          = document.getElementById('thread');
+    this.activity        = document.getElementById('activity');
+    this.activityMessage = document.getElementById('activity-message');
 
     var intro    = document.getElementById('intro');
     var shootbox = document.getElementById('shootbox');
@@ -218,13 +219,13 @@ Chat.prototype.updateActivity = function () {
 
     if (0 === numberOfActivePersons) {
         this.activity.setAttribute('aria-hidden', 'true');
-        this.activity.innerHTML = '';
+        this.activityMessage.innerHTML = '';
 
         return;
     }
 
     this.activity.setAttribute('aria-hidden', 'false');
-    this.activity.innerHTML =
+    this.activityMessage.innerHTML =
         activePersons + ' ' +
         (numberOfActivePersons > 1 ? 'are' : 'is') + ' typing…';
 
