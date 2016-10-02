@@ -204,7 +204,7 @@ $server->on(
                     json_encode([
                         'type'   => 'client/bubble/new',
                         'id'     => Consistency::uuid(),
-                        'offset' => mt_rand(0, 100),
+                        'offset' => mt_rand(10, 100),
                         'radius' => mt_rand(20, 120),
                         'team'   => mt_rand(0, 1) ? Player::TEAM_ONE : Player::TEAM_TWO
                     ])

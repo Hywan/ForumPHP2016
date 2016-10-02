@@ -113,7 +113,7 @@ Game.prototype.askNewBubble = function () {
 Game.prototype.emitBubbles = function () {
     var self            = this;
     var numberOfPlayers = Object.keys(self.players).length || 1;
-    var basis           = 2500 * numberOfPlayers;
+    var basis           = 500 * numberOfPlayers;
 
     self.askNewBubble();
 
@@ -121,7 +121,7 @@ Game.prototype.emitBubbles = function () {
         function () {
             self.emitBubbles();
         },
-        basis - (Math.random() * (basis / 10) * (Math.random() > .5 ? -1 : 1))
+        basis - (Math.random() * (basis / 2) * (Math.random() > .5 ? -1 : 1))
     );
 };
 
