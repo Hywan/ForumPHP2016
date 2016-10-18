@@ -93,14 +93,53 @@ $server->on(
         }
 
         var_dump($message);
-        $bucket->getSource()->close();
-
-        return;
 
         switch ($message->type) {
-            case '…':
+            case 'server/person/new':
+                $node->setPersonId($message->id);
+                $node->setPseudo($message->pseudo);
+
+                $source->send(
+                    json_encode([
+                        'type'    => 'client/persons',
+                        'persons' => array_values($connection->getNodes())
+                    ])
+                );
+                $source->broadcast(
+                    json_encode([
+                        'type'   => 'client/person/new',
+                        'id'     => $node->getPersonId(),
+                        'pseudo' => $node->getPseudo()
+                    ])
+                );
 
                 break;
+
+            case 'server/person/active':
+                $source->broadcast(
+                    json_encode([
+                        'type' => 'client/person/active',
+                        'id'   => $node->getPersonId()
+                    ])
+                );
+
+                break;
+
+            case 'server/person/inactive':
+                $source->broadcast(
+                    json_encode([
+                        'type' => 'client/person/inactive',
+                        'id'   => $node->getPersonId()
+                    ])
+                );
+
+                break;
+
+
+            default:
+                $bucket->getSource()->close();
+
+                return;
         }
     }
 );
