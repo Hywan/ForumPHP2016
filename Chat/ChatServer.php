@@ -116,22 +116,10 @@ $server->on(
                 break;
 
             case 'server/person/active':
-                $source->broadcast(
-                    json_encode([
-                        'type' => 'client/person/active',
-                        'id'   => $node->getPersonId()
-                    ])
-                );
 
                 break;
 
             case 'server/person/inactive':
-                $source->broadcast(
-                    json_encode([
-                        'type' => 'client/person/inactive',
-                        'id'   => $node->getPersonId()
-                    ])
-                );
 
                 break;
 
