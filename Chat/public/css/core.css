@@ -147,7 +147,7 @@ body {
     #thread [data-message-type="info"] {
         align-self: center;
         text-align: center;
-        width: 50%;
+        width: 65%;
         background: hsl(198, 68%, 91%);
     }
 

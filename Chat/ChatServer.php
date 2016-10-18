@@ -47,8 +47,12 @@ class Person extends Websocket\Node implements JsonSerializable
     }
 }
 
-$server = new Websocket\Server(new Socket\Server('ws://127.0.0.1:8080'));
-$server->getConnection()->setNodeName(Person::class);
+$server = new Websocket\Server(
+    new Socket\Server('ws://127.0.0.1:8080')
+);
+$server
+    ->getConnection()
+    ->setNodeName(Person::class);
 
 $server->on(
     'open',
