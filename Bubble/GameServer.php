@@ -157,86 +157,18 @@ $server->on(
                 ];
 
                 foreach ($connection->getNodes() as $playerNode) {
-                    if (null !== $playerNode->getPlayerId()) {
-                        $players[] = $playerNode;
-
-                        if ($playerNode !== $node) {
-                            $team = $playerNode->getTeam();
-
-                            if (!empty($team)) {
-                                $teamStats[$team]++;
-                            }
-                        }
-                    }
+                    // …
                 }
 
-                asort($teamStats, SORT_NUMERIC);
-                $node->setTeam(key($teamStats));
-
-                $source->send(
-                    json_encode([
-                        'type'    => 'client/players',
-                        'players' => $players
-                    ])
-                );
-                $source->send(
-                    json_encode([
-                        'type'   => 'client/scores',
-                        'scores' => $scores
-                    ])
-                );
-                $source->broadcast(
-                    json_encode([
-                        'type'   => 'client/player/new',
-                        'id'     => $node->getPlayerId(),
-                        'pseudo' => $node->getPlayerPseudo(),
-                        'team'   => $node->getTeam()
-                    ])
-                );
+                // …
 
                 break;
 
             case 'server/bubble/new':
-                $bucket->getSource()->broadcastIf(
-                    function () {
-                        return true;
-                    },
-                    json_encode([
-                        'type'   => 'client/bubble/new',
-                        'id'     => Consistency::uuid(),
-                        'offset' => mt_rand(10, 100),
-                        'radius' => mt_rand(20, 120),
-                        'team'   => mt_rand(0, 1) ? Player::TEAM_ONE : Player::TEAM_TWO
-                    ])
-                );
 
                 break;
 
             case 'server/bubble/delete':
-                $bucket->getSource()->broadcast(
-                    json_encode([
-                        'type' => 'client/bubble/delete',
-                        'id'   => $message->id
-                    ])
-                );
-
-                $nodeTeam = $node->getTeam();
-
-                if ($message->team === $nodeTeam) {
-                    $scores->addToTeam($nodeTeam, 10);
-                } else {
-                    $scores->removeToTeam($nodeTeam, 20);
-                }
-
-                $bucket->getSource()->broadcastIf(
-                    function () {
-                        return true;
-                    },
-                    json_encode([
-                        'type'   => 'client/scores',
-                        'scores' => $scores
-                    ])
-                );
 
                 break;
         }
