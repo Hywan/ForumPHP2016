@@ -286,6 +286,10 @@ svg path {
     transform: translateX(4%);
 }
 
+menu {
+    display: none;
+}
+
 @keyframes bloup {
     0%, 50% {
         transform: translateY(100%);

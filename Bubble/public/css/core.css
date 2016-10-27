@@ -177,6 +177,10 @@ input, button {
         background: hsla(0, 0%, 100%, .5);
     }
 
+menu {
+    display: none;
+}
+
 @keyframes zigzag_x {
     from {
         transform: translateX(-80px);
